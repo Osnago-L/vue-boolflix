@@ -1,7 +1,11 @@
 <template>
   <div class="header">
-    <div>NETFLIX LOGO</div>
-    <SearchBar/>
+    <img src="../../assets/img/Logonetflix.png" alt="">
+    <div class="buttons">
+      <img src="../../assets/img/user-solid.svg" alt="">
+      <SearchBar class="search-bar" @search="searchedValue"
+      />
+    </div>
   </div>
 </template>
 
@@ -12,6 +16,11 @@ export default {
     name: "Header",
     components:{
       SearchBar
+    },
+    methods:{
+      searchedValue: function(searchValue){
+        this.$emit('search', searchValue )
+      }
     }
 }
 </script>
@@ -28,6 +37,18 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  &>img{
+    width:80px
+  }
+}
+
+.buttons{
+  display: flex;
+  gap: 10px;
+  img{
+    width: 18px;
+  }
 }
 
 </style>

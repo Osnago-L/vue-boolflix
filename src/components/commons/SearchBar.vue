@@ -1,6 +1,7 @@
 <template>
   <div class="search-bar">
-      <input placeholder="Search..." type="text" @keyup="$emit('search', searchValue )" v-model="searchValue">
+      <input :class="animationIsActive" placeholder="Search..." type="text" @keyup="$emit('search', searchValue )" v-model="searchValue">
+      <img @click="startAnimation"  src="../../assets/img/magnifying-glass-solid.svg" alt="">
   </div>
 </template>
 
@@ -9,15 +10,39 @@ export default {
     name: "SearchBar",
     data(){
         return{
-            searchValue:""
+            searchValue:"",
+            animationIsActive:null
         }
     },
+    methods:{
+        startAnimation: function(){
+            if(this.animationIsActive == null){
+                this.animationIsActive = "width-grow-animation"
+            }else if(this.animationIsActive == "width-grow-animation"){
+                this.animationIsActive = "width-reduce-animation"
+            }else{
+                this.animationIsActive = "width-grow-animation"
+            }
+        }
+    }
 
 }
 </script>
 
 <style lang="scss" scoped>
 .search-bar{
-    margin: 10px 0px;
+    display: flex;
+    align-items: center;
+    input{
+        opacity: 0;
+        width: 0px;
+        height: 25px;
+        padding: 0px 5px;
+        border-radius: 10px 10px;
+    }
+    img{
+        width: 18px;
+        margin-left: 10px;
+    }
 }
 </style>

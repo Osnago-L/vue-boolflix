@@ -1,6 +1,5 @@
 <template>
   <div class="main" >
-    <SearchBar  @search="filterArray"/>
     <h1>Movies</h1>
     <div class="cleangrid">
       <MainCard v-for="element,index in moviesList" :key="index" :dataObj="element"
@@ -15,7 +14,6 @@
 </template>
 
 <script>
-import SearchBar from "../commons/SearchBar.vue"
 import MainCard from "../commons/MainCard.vue"
 
 import axios from 'axios'
@@ -24,8 +22,10 @@ import axios from 'axios'
 export default {
     name: "Main",
     components:{
-      MainCard,
-      SearchBar
+      MainCard
+    },
+    props:{
+      search:String
     },
           data () {
         return {
@@ -69,9 +69,8 @@ export default {
                         // always executed
                     }); 
         },
-        filterArray: function(searchValue){
-          
-          searchValue == "" ? this.selected = "The" : this.selected = searchValue
+        filterArray: function(){
+          this.search == "" ? this.selected = "The" : this.selected = this.search
           this.getMovies()
           this.getTv()
         }
@@ -79,6 +78,11 @@ export default {
     created: function(){
         this.getMovies()
         this.getTv()
+    },
+    watch:{
+      search: function(){
+        this.filterArray()
+      }
     },
     computed:{
       watcher(){
@@ -91,7 +95,7 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/style/partial/variables.scss";
 .main{
-  padding: 10px 10px;
+  padding: 30px 30px;
   .cleangrid{
     display: flex;
     flex-wrap: wrap;

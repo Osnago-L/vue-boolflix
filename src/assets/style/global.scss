@@ -7,6 +7,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 // REMOVE SCROLLBAR
@@ -24,3 +25,36 @@
 
 // GLOBAL
 
+//ANIMATION
+
+.width-grow-animation{
+  animation: width-grow 1s forwards;
+}
+
+@keyframes width-grow {
+  from{
+    opacity: 0;
+    width: 0px;
+  }
+
+  to{
+    width: 150px;
+    opacity: 1;
+  }
+}
+
+.width-reduce-animation{
+  animation: width-reduce 1s forwards;
+}
+
+@keyframes width-reduce {
+  from{
+    opacity: 1;
+    width: 150px;
+  }
+
+  to{
+    width: 0px;
+    opacity: 0;
+  }
+}
