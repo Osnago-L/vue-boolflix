@@ -1,8 +1,14 @@
 <template>
   <div class="main" >
     <SearchBar  @search="filterArray"/>
-    <div>
+    <h1>Movies</h1>
+    <div class="cleangrid">
       <MainCard v-for="element,index in moviesList" :key="index" :dataObj="element"
+      />
+    </div>
+    <h1>Series</h1>
+    <div class="cleangrid">
+      <MainCard v-for="element,index in tvList" :key="index" :dataObj="element"
       />
     </div>
   </div>
@@ -24,7 +30,7 @@ export default {
           data () {
         return {
             moviesList: [],
-            filteredMovies: [],
+            tvList:[],
             selected:"The"
         }
     },
@@ -46,13 +52,33 @@ export default {
                         // always executed
                     });  
         },
+        getTv: function(){
+                axios.get('https://api.themoviedb.org/3/search/tv', {
+                    params: {
+                    api_key: "abebf56715261d00da812031b9c3e2ed",
+                    query: this.selected
+                    }
+                    })
+                    .then((apiData) =>{
+                        this.tvList = apiData.data.results;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                    .then(function () {
+                        // always executed
+                    }); 
+        },
         filterArray: function(searchValue){
-          this.selected = searchValue
+          
+          searchValue == "" ? this.selected = "The" : this.selected = searchValue
           this.getMovies()
+          this.getTv()
         }
     },
     created: function(){
         this.getMovies()
+        this.getTv()
     },
     computed:{
       watcher(){
@@ -65,9 +91,12 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/style/partial/variables.scss";
 .main{
-  div{
+  padding: 10px 10px;
+  .cleangrid{
     display: flex;
     flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="search-bar">
-      <input type="text" @keyup="$emit('search', searchValue )" v-model="searchValue">
+      <input placeholder="Search..." type="text" @keyup="$emit('search', searchValue )" v-model="searchValue">
   </div>
 </template>
 
@@ -18,6 +18,6 @@ export default {
 
 <style lang="scss" scoped>
 .search-bar{
-    margin: 5px 10px;
+    margin: 10px 0px;
 }
 </style>
