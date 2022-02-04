@@ -1,36 +1,33 @@
 <template>
   <div class="main container" >
-    <h1>Movies</h1>
-    <!-- SECTION WITH OVERLAYS -->
-    <section>
-      <!-- OVERLAY LEFT  -->
-      <div class="overlay_left">
-        <div @mouseover="scrollLeft" @mouseleave="stopScroll" class="arrow_left">&#8592;</div>
-      </div>
-      <!-- CARDS -->
-      <div id="movies" class="cleangrid">
-      <MainCard v-for="element,index in moviesList" :key="index" :dataObj="element"
-      />
-      </div>
-      <!-- OVERLAY RIGHT  -->
-      <div class="overlay_right">
-        <div @mouseover="scrollRight" @mouseleave="stopScroll" class="arrow_right">&#8594;</div>
-      </div>
-    </section>
-
-    <h1>Series</h1>
-    <section>
-      <div class="overlay_left">
-        <div @mouseover="scrollLeft" @mouseleave="stopScroll" class="arrow_left">&#8592;</div>
-      </div>
-      <div id="series" class="cleangrid">
-        <MainCard v-for="element,index in tvList" :key="index" :dataObj="element"
+    <h1 v-if="moviesList.length == 0">Opss, la ricerca non ha dato risultati</h1>
+    <div v-if="moviesList.length > 0">
+      <h1>Movies</h1>
+      <!-- SECTION WITH OVERLAYS -->
+      <section>
+        <!-- OVERLAY LEFT  -->
+        <div @mouseover="scrollLeft" @mouseleave="stopScroll" class="overlay_left"></div>
+        <!-- CARDS -->
+        <div id="movies" class="cleangrid">
+        <MainCard v-for="element,index in moviesList" :key="index" :dataObj="element"
         />
-      </div>
-      <div class="overlay_right">
-         <div @mouseover="scrollRight" @mouseleave="stopScroll" class="arrow_right">&#8594;</div>
-      </div>
-    </section>
+        </div>
+        <!-- OVERLAY RIGHT  -->
+        <div @mouseover="scrollRight" @mouseleave="stopScroll" class="overlay_right"></div>
+      </section>
+    </div>
+
+    <div v-if="tvList.length > 0">
+      <h1>Series</h1>
+      <section>
+        <div @mouseover="scrollLeft" @mouseleave="stopScroll" class="overlay_left"></div>
+        <div id="series" class="cleangrid">
+          <MainCard v-for="element,index in tvList" :key="index" :dataObj="element"
+          />
+        </div>
+        <div @mouseover="scrollRight" @mouseleave="stopScroll" class="overlay_right"></div>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -97,14 +94,16 @@ export default {
           this.getTv()
         },
         scrollRight: function(event){
+          console.log(event);
           this.interval = setInterval(() => {
-            event.path[2].querySelector(".cleangrid").scrollLeft += 30
+            event.path[1].querySelector(".cleangrid").scrollLeft += 30
           }, 100);
           
         },
         scrollLeft: function(event){
+          console.log(event);
           this.interval = setInterval(() => {
-            event.path[2].querySelector(".cleangrid").scrollLeft -= 30
+            event.path[1].querySelector(".cleangrid").scrollLeft -= 30
           }, 100);
           
         },
@@ -135,6 +134,7 @@ export default {
   background-color: #141414;
   padding-top: 20px;
   color: #e5e5e5;
+  min-height: calc( 100vh - $header-height);
 
   section{
     position: relative;
@@ -142,7 +142,7 @@ export default {
     .overlay_right,.overlay_left{
       position: absolute;
       z-index: 999;
-      width: 60px;
+      width: 90px;
       height: 94%;
 
       display: flex;
@@ -152,37 +152,12 @@ export default {
       top: 20px;
       left: 0;
       background: linear-gradient(to right, black,transparent);
-
-      .arrow_left{
-         display: flex;
-         align-items: center;
-         background-color: #141414c7;
-         width: 40px;
-         height: 80px;
-         border-top-right-radius: 80px;
-         border-bottom-right-radius: 80px;
-
-         padding-left: 5px;
-       }
     }
     .overlay_right{
       justify-content: end;
       top: 20px;
       right: 0;
       background: linear-gradient(to left, black,transparent);
-
-      .arrow_right{
-         display: flex;
-         align-items: center;
-         justify-content:end;
-         background-color: #141414c7;
-         width: 40px;
-         height: 80px;
-         border-top-left-radius: 80px;
-         border-bottom-left-radius: 80px;
-
-         padding-right: 5px;
-       }
     }
   }
 

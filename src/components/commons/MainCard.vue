@@ -1,7 +1,10 @@
 <template>
   <div class="main-card">
     <div class="img-splash">
-      <img :src="getPoster()" alt="">
+      <img v-if="dataObj.poster_path != null" :src="getPoster()" alt="">
+      <div v-if="dataObj.poster_path == null" class="default-splash">
+        <h1>{{switchCategory()}}</h1>
+      </div>
     </div>
     <div class="text">
       <div class="titles">
@@ -80,6 +83,21 @@ export default {
     img{
       width: inherit;
       height: inherit;
+    }
+
+    .default-splash{
+      width: inherit;
+      height: inherit;
+      background-color: #121212;
+      padding: 0 60px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      h1{
+        font-size: 50px;
+      }
     }
   }
   .text{
