@@ -1,15 +1,36 @@
 <template>
-  <div class="main" >
+  <div class="main container" >
     <h1>Movies</h1>
-    <div class="cleangrid">
+    <!-- SECTION WITH OVERLAYS -->
+    <section>
+      <!-- OVERLAY LEFT  -->
+      <div class="overlay_left">
+        <div @mouseover="scrollLeft" @mouseleave="stopScroll" class="arrow_left">&#8592;</div>
+      </div>
+      <!-- CARDS -->
+      <div id="movies" class="cleangrid">
       <MainCard v-for="element,index in moviesList" :key="index" :dataObj="element"
       />
-    </div>
+      </div>
+      <!-- OVERLAY RIGHT  -->
+      <div class="overlay_right">
+        <div @mouseover="scrollRight" @mouseleave="stopScroll" class="arrow_right">&#8594;</div>
+      </div>
+    </section>
+
     <h1>Series</h1>
-    <div class="cleangrid">
-      <MainCard v-for="element,index in tvList" :key="index" :dataObj="element"
-      />
-    </div>
+    <section>
+      <div class="overlay_left">
+        <div @mouseover="scrollLeft" @mouseleave="stopScroll" class="arrow_left">&#8592;</div>
+      </div>
+      <div id="series" class="cleangrid">
+        <MainCard v-for="element,index in tvList" :key="index" :dataObj="element"
+        />
+      </div>
+      <div class="overlay_right">
+         <div @mouseover="scrollRight" @mouseleave="stopScroll" class="arrow_right">&#8594;</div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -31,7 +52,8 @@ export default {
         return {
             moviesList: [],
             tvList:[],
-            selected:"The"
+            selected:"The",
+            interval:null
         }
     },
     methods:{
@@ -73,6 +95,21 @@ export default {
           this.search == "" ? this.selected = "The" : this.selected = this.search
           this.getMovies()
           this.getTv()
+        },
+        scrollRight: function(event){
+          this.interval = setInterval(() => {
+            event.path[2].querySelector(".cleangrid").scrollLeft += 30
+          }, 100);
+          
+        },
+        scrollLeft: function(event){
+          this.interval = setInterval(() => {
+            event.path[2].querySelector(".cleangrid").scrollLeft -= 30
+          }, 100);
+          
+        },
+        stopScroll: function(){
+          clearInterval(this.interval)
         }
     },
     created: function(){
@@ -95,12 +132,66 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/style/partial/variables.scss";
 .main{
-  padding: 30px 30px;
+  background-color: #141414;
+  padding-top: 20px;
+  color: #e5e5e5;
+
+  section{
+    position: relative;
+
+    .overlay_right,.overlay_left{
+      position: absolute;
+      z-index: 999;
+      width: 60px;
+      height: 94%;
+
+      display: flex;
+      align-items: center;
+    }
+    .overlay_left{
+      top: 20px;
+      left: 0;
+      background: linear-gradient(to right, black,transparent);
+
+      .arrow_left{
+         display: flex;
+         align-items: center;
+         background-color: #141414c7;
+         width: 40px;
+         height: 80px;
+         border-top-right-radius: 80px;
+         border-bottom-right-radius: 80px;
+
+         padding-left: 5px;
+       }
+    }
+    .overlay_right{
+      justify-content: end;
+      top: 20px;
+      right: 0;
+      background: linear-gradient(to left, black,transparent);
+
+      .arrow_right{
+         display: flex;
+         align-items: center;
+         justify-content:end;
+         background-color: #141414c7;
+         width: 40px;
+         height: 80px;
+         border-top-left-radius: 80px;
+         border-bottom-left-radius: 80px;
+
+         padding-right: 5px;
+       }
+    }
+  }
+
   .cleangrid{
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 20px 0;
+    overflow-x: auto;
+    gap: 5px;
+    padding: 20px 0;
+
   }
 }
 </style>

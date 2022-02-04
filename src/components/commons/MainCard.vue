@@ -1,9 +1,13 @@
 <template>
   <div class="main-card">
-    <div>
+    <div class="img-splash">
+      <img :src="getPoster()" alt="">
+    </div>
+    <div class="text">
       <div class="titles">
         <span class="title">{{switchCategory()}}</span>
         <span v-if="dataObj.original_title" class="original_title">{{dataObj.original_title}}</span>
+        <span class="overview">{{dataObj.overview}}</span>
       </div>
       <div class="lang-vote">
         <div>        
@@ -18,6 +22,8 @@
   </div>
 </template>
 
+
+
 <script>
 export default {
     name: "MainCard",
@@ -25,6 +31,9 @@ export default {
       dataObj:Object
     },
     methods:{
+      getPoster: function(){
+        return "https://image.tmdb.org/t/p/w400/" + this.dataObj.poster_path
+      },
       getFlags: function(){
        let country = this.dataObj.origin_country[0]?.toLowerCase() || 'un'
        return "https://flagcdn.com/w20/"+ country +".png"
@@ -53,12 +62,31 @@ export default {
 
 <style lang="scss" scoped>
 .main-card{
+    width: 400px;
+    height: 600px;
+    position: relative;
 
-  &>div{
-    width: 200px;
-    height: 200px;
-    border: 1px solid black;
+  .img-splash{
+    width: inherit;
+    height: inherit;
+    position: absolute;
+    top: 0;
+    left:0;
+
+    &:hover{
+      opacity: 0.2;
+    }
+
+    img{
+      width: inherit;
+      height: inherit;
+    }
+  }
+  .text{
+    width: inherit;
+    height: inherit;
     padding: 10px;
+    border: 1px solid black;
 
     display: flex;
     flex-direction: column;
@@ -69,11 +97,17 @@ export default {
     flex-direction: column;
 
   .title{
+    font-size: 20px;
     font-weight: bold;
   }
   .original_title{
+    margin-top: 10px;
     font-style: italic;
     font-size: 13px;
+  }
+  .overview{
+    font-size: 15px;
+    margin-top: 20px;
   }
 
   }

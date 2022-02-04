@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header container">
     <img src="../../assets/img/Logonetflix.png" alt="">
     <div class="buttons">
       <img src="../../assets/img/user-solid.svg" alt="">
@@ -30,8 +30,7 @@ export default {
 
 .header{
   height: $header-height;
-  padding: 0 20px;
-  background-color: black;
+  background-color: #121212;
   color:red;
 
   display: flex;
